@@ -357,7 +357,7 @@ public class Cardboard : MonoBehaviour {
     if (!updated) {
       device.UpdateState();
       if (TapIsTrigger) {
-        if (Input.GetMouseButtonUp(0)) {
+        if (Input.GetMouseButtonUp(0) || Input.GetButtonUp("Fire1")) {
           device.triggered = true;
         }
         if (Input.GetKeyUp(KeyCode.Escape)) {

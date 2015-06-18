@@ -19,10 +19,10 @@ public class NewBehaviourScript : MonoBehaviour {
 	}
 
 	private void randomMap() {
-		for (int x = 0; x < 20; x++) {
-			for (int y = 0; y < 20; y++) {
+		for (int x = 0; x < 10; x++) {
+			for (int y = 0; y < 10; y++) {
 				map[x,y] = (GameObject)Instantiate(tiles[(int)(Random.value * 3)]);
-				map[x,y].transform.position = new Vector3(x-10 + (Random.value -.5f) / 1000f,y-10,0);
+				map[x,y].transform.position = new Vector3(x-5 + (Random.value -.5f) / 1000f,y+10,0);
 			}
 		}
 	}

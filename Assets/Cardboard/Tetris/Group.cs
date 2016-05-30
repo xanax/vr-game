@@ -9,15 +9,17 @@ public class Group : MonoBehaviour {
     float lastInputV = float.MinValue;
     float lastInputR = float.MinValue;
     float startTime = Time.time;
-    float initialDelay = .5f;
-
+    float initialDelay = .3f;
+    static float fallDelay = 1f;
+    float delayDecSize = .001f;
+        
     void Start()
     {
         // Default position not valid? Then it's game over
         if (!isValidGridPos())
         {
             Debug.Log("GAME OVER");
-            //Destroy(gameObject);
+            enabled = false;
         }
     }
 
@@ -111,10 +113,10 @@ public class Group : MonoBehaviour {
                 moveDown();
                 lastInputV = Time.time;
             }
-            if (Time.time - lastFall >= 1)
-            {
-                moveDown();
-            }
+        if (Time.time - lastFall >= fallDelay)
+        {
+            moveDown();
+        }
     }
 
     private void moveDown()
@@ -138,6 +140,8 @@ public class Group : MonoBehaviour {
 
             // Spawn next Group
             FindObjectOfType<Spawner>().spawnNext();
+
+            fallDelay -= delayDecSize;
 
             // Disable script
             enabled = false;

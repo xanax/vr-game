@@ -4,8 +4,10 @@ using System.Collections;
 public class Group : MonoBehaviour {
     float lastFall = 0;
     float repeatTime = .2f;
-    float downRepeatTime = .15f;
-    float lastInput = float.MinValue;
+    float downRepeatTime = .1f;
+    float lastInputH = float.MinValue;
+    float lastInputV = float.MinValue;
+    float lastInputR = float.MinValue;
     float startTime = Time.time;
     float initialDelay = .5f;
 
@@ -28,12 +30,20 @@ public class Group : MonoBehaviour {
         float vAxis = Input.GetAxis("Vertical");
         float hAxis = Input.GetAxis("Horizontal");
 
-        // check if user let go of the stick; if so, reset the input bounce control
-        if (Mathf.Abs(vAxis) < 0.1f && Mathf.Abs(hAxis) < 0.1f) {
-            lastInput = float.MinValue;
+        if (Mathf.Abs(vAxis) < 0.1f)
+        {
+            lastInputV = float.MinValue;
+        }
+        if (Mathf.Abs(hAxis) < 0.1f)
+        {
+            lastInputH = float.MinValue;
+        }
+        if (!Input.GetButtonDown("Fire1") && !Input.GetButtonDown("Fire2"))
+        {
+            lastInputR = float.MinValue;
         }
 
-            if (hAxis < -0.1f && Time.time - lastInput > repeatTime)
+        if (hAxis < -0.1f && Time.time - lastInputH > repeatTime)
             {
                 // Modify position
                 transform.position += new Vector3(-1, 0, 0);
@@ -43,14 +53,14 @@ public class Group : MonoBehaviour {
                 {
                     // Its valid. Update grid.
                     updateGrid();
-                    lastInput = Time.time;
+                    lastInputH = Time.time;
                 }
 
                 else
                     // Its not valid. revert.
                     transform.position += new Vector3(1, 0, 0);
             } // Move Right
-            else if (hAxis > 0.1f && Time.time - lastInput > repeatTime)
+        if (hAxis > 0.1f && Time.time - lastInputH > repeatTime)
             {
                 // Modify position
                 transform.position += new Vector3(1, 0, 0);
@@ -60,13 +70,13 @@ public class Group : MonoBehaviour {
                 {
                     // It's valid. Update grid.
                     updateGrid();
-                    lastInput = Time.time;
+                    lastInputH = Time.time;
                 }
                 else
                     // It's not valid. revert.
                     transform.position += new Vector3(-1, 0, 0);
             }// Rotate
-        else if (Input.GetButtonDown("Fire1") && Time.time - lastInput > repeatTime)
+        if (Input.GetButtonDown("Fire1") && Time.time - lastInputR > repeatTime)
         {
             transform.Rotate(0, 0, -90);
 
@@ -75,13 +85,13 @@ public class Group : MonoBehaviour {
             {
                 // It's valid. Update grid.
                 updateGrid();
-                lastInput = Time.time;
+                lastInputR = Time.time;
             }
             else
                 // It's not valid. revert.
                 transform.Rotate(0, 0, 90);
         }
-        else if (Input.GetButtonDown("Fire2") && Time.time - lastInput > repeatTime)
+         if (Input.GetButtonDown("Fire2") && Time.time - lastInputR > repeatTime)
         {
             transform.Rotate(0, 0, 90);
 
@@ -90,22 +100,23 @@ public class Group : MonoBehaviour {
             {
                 // It's valid. Update grid.
                 updateGrid();
-                lastInput = Time.time;
+                lastInputR = Time.time;
             }
             else
                 // It's not valid. revert.
                 transform.Rotate(0, 0, 90);
         }
-        else if (vAxis < -0.1f && Time.time - lastInput > downRepeatTime)
+         if (vAxis < -0.1f && Time.time - lastInputV > downRepeatTime)
             {
                 moveDown();
-                lastInput = Time.time;
+                lastInputV = Time.time;
             }
             if (Time.time - lastFall >= 1)
             {
                 moveDown();
             }
     }
+
     private void moveDown()
     {
         // Modify position

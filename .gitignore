@@ -5,3 +5,5 @@
 **/*.sln
 **/*.userprefs
 **/*.pidb
+*.apk
+.vs/

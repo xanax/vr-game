@@ -9,14 +9,15 @@ public class Group : MonoBehaviour {
     float lastInputV = float.MinValue;
     float lastInputR = float.MinValue;
     float startTime = Time.time;
-    float initialDelay = .3f;
+    float initialDelay = 0f;
     static float fallDelay = 1f;
     float delayDecSize = .001f;
+    public bool inactive = false;
         
     void Start()
     {
         // Default position not valid? Then it's game over
-        if (!isValidGridPos())
+        if (!isValidGridPos() && !inactive)
         {
             Debug.Log("GAME OVER");
             enabled = false;
@@ -25,7 +26,7 @@ public class Group : MonoBehaviour {
 
     void Update()
     {
-        if(Time.time - startTime < initialDelay)
+        if(Time.time - startTime < initialDelay || inactive)
         {
             return;
         }
@@ -169,7 +170,7 @@ public class Group : MonoBehaviour {
         return true;
     }
 
-    void updateGrid()
+    public void updateGrid()
     {
         // Remove old children from grid
         for (int y = 0; y < Grid.height; ++y)

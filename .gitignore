@@ -7,3 +7,6 @@
 **/*.pidb
 *.apk
 .vs/
+*.exe
+*.pdb
+tetris_Data/

@@ -59,28 +59,34 @@ public class Grid : MonoBehaviour {
     {
         for (int y = 0; y < height; ++y)
         {
+            int count = 0;
             if (isRowFull(y))
             {
                 deleteRow(y);
                 decreaseRowsAbove(y + 1);
                 --y;
+                count++;
             }
-        }
-    }
-    void updateGrid()
-    {
-        // Remove old children from grid
-        for (int y = 0; y < Grid.height; ++y)
-            for (int x = 0; x < Grid.width; ++x)
-                if (Grid.grid[x, y] != null)
-                    if (Grid.grid[x, y].parent == transform)
-                        Grid.grid[x, y] = null;
-
-        // Add new children to grid
-        foreach (Transform child in transform)
-        {
-            Vector2 v = Grid.roundVec2(child.position);
-            Grid.grid[(int)v.x, (int)v.y] = child;
+            int score;
+            switch(count)
+            {
+                case 1:
+                    score = 40;
+                    break;
+                case 2:
+                    score = 100;
+                    break;
+                case 3:
+                    score = 300;
+                    break;
+                case 4:
+                    score = 1200;
+                    break;
+                default:
+                    score = 0;
+                    break;
+            }
+            FindObjectOfType<Canvas>().incScore(score);
         }
     }
 }
